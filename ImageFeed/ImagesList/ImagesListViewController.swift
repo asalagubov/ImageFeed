@@ -22,7 +22,6 @@ final class ImagesListViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    //   tableView.rowHeight = 200
     tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
   }
 }
@@ -37,7 +36,7 @@ extension ImagesListViewController {
     cell.dateLabel.text = dateFormatter.string(from: Date())
     
     let isLike = indexPath.row % 2 == 0
-    let likeImage = isLike ? UIImage(named: "like_button_on") : UIImage (named:  "like_button_off")
+    let likeImage = UIImage(named: isLike ? "like_button_on" : "like_button_off")
     cell.likeButton.setImage(likeImage, for: .normal)
   }
 }
