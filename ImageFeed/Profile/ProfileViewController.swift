@@ -5,7 +5,6 @@
 //  Created by Alexander Salagubov on 12.04.2024.
 //
 
-import Foundation
 import UIKit
 
 final class ProfileViewController: UIViewController {
