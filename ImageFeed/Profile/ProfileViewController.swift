@@ -16,4 +16,11 @@ final class ProfileViewController: UIViewController {
   @IBOutlet weak var logoutButton: UIButton!
   @IBAction func didTapLogoutButton(_ sender: Any) {
   }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    NSLayoutConstraint.activate([
+      nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor, constant: 16)
+    ])
+  }
 }

@@ -89,14 +89,14 @@
                             <constraint firstAttribute="top" secondItem="0ZD-Gs-GgP" secondAttribute="top" id="l0f-Ng-QVT"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="q1Y-2o-UUp"/>
+                    <navigationItem key="navigationItem" id="ICg-Mx-uPi"/>
                     <connections>
                         <outlet property="tableView" destination="0ZD-Gs-GgP" id="Fuw-16-5ad"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="103" y="-1205"/>
+            <point key="canvasLocation" x="1013.0434782608696" y="-1205.3571428571429"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="scN-Jg-Vfr">
@@ -106,7 +106,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Photo" translatesAutoresizingMaskIntoConstraints="NO" id="CIB-oe-IhT" userLabel="Avatar Image View">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="CIB-oe-IhT" userLabel="Avatar Image View">
                                 <rect key="frame" x="16" y="80" width="77" height="77"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CIB-oe-IhT" secondAttribute="height" multiplier="1:1" id="SKI-7G-fw0"/>
@@ -126,12 +126,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSQ-KU-lmc" userLabel="Logout Button">
-                                <rect key="frame" x="350" y="96.5" width="24" height="44"/>
+                                <rect key="frame" x="354" y="96.5" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="KDM-LX-jPY"/>
+                                    <constraint firstAttribute="width" constant="44" id="mMA-Mo-inS"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="Exit"/>
+                                <state key="normal" image="logout_button"/>
                                 <connections>
                                     <action selector="didTapLogoutButton:" destination="2YD-W9-lXz" eventType="touchUpInside" id="33g-AT-xTC"/>
                                 </connections>
@@ -150,14 +151,13 @@
                             <constraint firstItem="Not-mm-9co" firstAttribute="leading" secondItem="ZGG-7j-kOn" secondAttribute="leading" id="9J7-MK-dGf"/>
                             <constraint firstItem="CIB-oe-IhT" firstAttribute="leading" secondItem="bKM-nT-7Ew" secondAttribute="leading" constant="16" id="OYm-N8-eCw"/>
                             <constraint firstItem="bKM-nT-7Ew" firstAttribute="trailing" secondItem="ZGG-7j-kOn" secondAttribute="trailing" constant="16" id="Skc-rV-Tys"/>
+                            <constraint firstItem="bKM-nT-7Ew" firstAttribute="trailing" secondItem="DSQ-KU-lmc" secondAttribute="trailing" constant="16" id="ZyB-ql-9dp"/>
                             <constraint firstItem="gN0-af-edd" firstAttribute="top" secondItem="Not-mm-9co" secondAttribute="bottom" constant="8" id="bFO-yr-wwQ"/>
-                            <constraint firstItem="bKM-nT-7Ew" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DSQ-KU-lmc" secondAttribute="trailing" id="br4-YQ-U33"/>
                             <constraint firstItem="Not-mm-9co" firstAttribute="top" secondItem="ZGG-7j-kOn" secondAttribute="bottom" constant="8" id="cqx-bM-f6v"/>
                             <constraint firstItem="ZGG-7j-kOn" firstAttribute="leading" secondItem="CIB-oe-IhT" secondAttribute="leading" id="fzA-ol-Ejb"/>
                             <constraint firstItem="gN0-af-edd" firstAttribute="trailing" secondItem="ZGG-7j-kOn" secondAttribute="trailing" id="hDc-dS-wnd"/>
                             <constraint firstItem="gN0-af-edd" firstAttribute="leading" secondItem="ZGG-7j-kOn" secondAttribute="leading" id="hTS-ss-EAl"/>
                             <constraint firstItem="DSQ-KU-lmc" firstAttribute="centerY" secondItem="CIB-oe-IhT" secondAttribute="centerY" id="hmQ-3G-EkF"/>
-                            <constraint firstItem="DSQ-KU-lmc" firstAttribute="leading" secondItem="CIB-oe-IhT" secondAttribute="trailing" constant="257" id="nw1-zr-QUy"/>
                             <constraint firstItem="CIB-oe-IhT" firstAttribute="top" secondItem="bKM-nT-7Ew" secondAttribute="top" constant="32" id="w0L-Cc-QtU"/>
                             <constraint firstItem="ZGG-7j-kOn" firstAttribute="top" secondItem="CIB-oe-IhT" secondAttribute="bottom" constant="8" id="xhN-na-t7e"/>
                         </constraints>
@@ -189,7 +189,7 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="kD6-xE-Fxm"/>
+                        <segue destination="Su5-nd-XZo" kind="relationship" relationship="viewControllers" id="kD6-xE-Fxm"/>
                         <segue destination="2YD-W9-lXz" kind="relationship" relationship="viewControllers" id="E3F-P5-ty1"/>
                     </connections>
                 </tabBarController>
@@ -197,14 +197,38 @@
             </objects>
             <point key="canvasLocation" x="-933" y="-889"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="BeY-eI-hUA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Su5-nd-XZo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="q1Y-2o-UUp"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZTc-5o-u98">
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="YP White"/>
+                        <color key="barTintColor" name="YP White"/>
+                        <navigationBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" name="YP Black"/>
+                        </navigationBarAppearance>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="4o3-as-j9P"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dHU-wT-O42" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="102.89855072463769" y="-1205.3571428571429"/>
+        </scene>
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
-        <image name="Exit" width="24" height="24"/>
-        <image name="Photo" width="70" height="70"/>
+        <image name="avatar" width="70" height="70"/>
         <image name="like_button_on" width="42" height="42"/>
-        <image name="tab_editorial_active" width="31" height="30"/>
-        <image name="tab_profile_active" width="31" height="30"/>
+        <image name="logout_button" width="44" height="44"/>
+        <image name="tab_editorial_active" width="30" height="30"/>
+        <image name="tab_profile_active" width="30" height="30"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
