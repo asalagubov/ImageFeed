@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C3663F72BC96CC60049D8C3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3663F62BC96CC60049D8C3 /* ProfileViewController.swift */; };
+		0C3663FA2BD044B00049D8C3 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3663F92BD044B00049D8C3 /* SingleImageViewController.swift */; };
 		0C61E2112BB5A31200B4F828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C61E2102BB5A31200B4F828 /* AppDelegate.swift */; };
 		0C61E2132BB5A31200B4F828 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C61E2122BB5A31200B4F828 /* SceneDelegate.swift */; };
 		0C61E2152BB5A31200B4F828 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C61E2142BB5A31200B4F828 /* ImagesListViewController.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		0C3663F62BC96CC60049D8C3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		0C3663F92BD044B00049D8C3 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		0C61E20D2BB5A31200B4F828 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C61E2102BB5A31200B4F828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C61E2122BB5A31200B4F828 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			children = (
 				0C61E27E2BBC6C0B00B4F828 /* ImagesList */,
 				0C3663F82BC96F740049D8C3 /* Profile */,
+				0C3663F92BD044B00049D8C3 /* SingleImageViewController.swift */,
 				0C61E2102BB5A31200B4F828 /* AppDelegate.swift */,
 				0C61E2122BB5A31200B4F828 /* SceneDelegate.swift */,
 				0C61E2162BB5A31200B4F828 /* Main.storyboard */,
@@ -284,6 +287,7 @@
 				0C61E27D2BBC6BE400B4F828 /* ImagesListCell.swift in Sources */,
 				0C3663F72BC96CC60049D8C3 /* ProfileViewController.swift in Sources */,
 				0C61E2112BB5A31200B4F828 /* AppDelegate.swift in Sources */,
+				0C3663FA2BD044B00049D8C3 /* SingleImageViewController.swift in Sources */,
 				0C61E2132BB5A31200B4F828 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
