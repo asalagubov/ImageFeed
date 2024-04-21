@@ -90,6 +90,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		0C3663FB2BD514AF0049D8C3 /* SingleImageView */ = {
+			isa = PBXGroup;
+			children = (
+				0C3663F92BD044B00049D8C3 /* SingleImageViewController.swift */,
+			);
+			path = SingleImageView;
+			sourceTree = "<group>";
+		};
 		0C61E2042BB5A31200B4F828 = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +123,7 @@
 			children = (
 				0C61E27E2BBC6C0B00B4F828 /* ImagesList */,
 				0C3663F82BC96F740049D8C3 /* Profile */,
-				0C3663F92BD044B00049D8C3 /* SingleImageViewController.swift */,
+				0C3663FB2BD514AF0049D8C3 /* SingleImageView */,
 				0C61E2102BB5A31200B4F828 /* AppDelegate.swift */,
 				0C61E2122BB5A31200B4F828 /* SceneDelegate.swift */,
 				0C61E2162BB5A31200B4F828 /* Main.storyboard */,
