@@ -235,7 +235,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="bv1-1E-pT1" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="Hpj-Kh-r29"/>
+                                    <segue destination="bv1-1E-pT1" kind="presentation" identifier="ShowWebView" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="Hpj-Kh-r29"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="auth_screen_logo" translatesAutoresizingMaskIntoConstraints="NO" id="aIu-rh-MQx">
@@ -291,6 +291,10 @@
                                     <action selector="didTapBackButton:" destination="bv1-1E-pT1" eventType="touchUpInside" id="hQV-HY-STt"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OHc-X5-eGI">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="4"/>
+                                <color key="tintColor" name="YP Black"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EeM-Vu-Nfv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -298,12 +302,20 @@
                             <constraint firstItem="Zd4-1g-SNW" firstAttribute="top" secondItem="EeM-Vu-Nfv" secondAttribute="top" id="3md-GS-1G3"/>
                             <constraint firstItem="dvU-0K-W12" firstAttribute="top" secondItem="h61-Pf-pSn" secondAttribute="top" id="9VP-0y-k3I"/>
                             <constraint firstItem="Zd4-1g-SNW" firstAttribute="leading" secondItem="EeM-Vu-Nfv" secondAttribute="leading" id="JsZ-q2-ciu"/>
+                            <constraint firstItem="OHc-X5-eGI" firstAttribute="top" secondItem="EeM-Vu-Nfv" secondAttribute="top" id="MGH-hJ-Qdm"/>
                             <constraint firstItem="dvU-0K-W12" firstAttribute="leading" secondItem="h61-Pf-pSn" secondAttribute="leading" id="MTV-Rr-eCw"/>
+                            <constraint firstItem="OHc-X5-eGI" firstAttribute="trailing" secondItem="EeM-Vu-Nfv" secondAttribute="trailing" id="aQF-fO-QeQ"/>
                             <constraint firstAttribute="trailing" secondItem="dvU-0K-W12" secondAttribute="trailing" id="ah8-R2-Qgv"/>
                             <constraint firstAttribute="bottom" secondItem="dvU-0K-W12" secondAttribute="bottom" id="eIl-iz-jcN"/>
+                            <constraint firstItem="OHc-X5-eGI" firstAttribute="leading" secondItem="EeM-Vu-Nfv" secondAttribute="leading" id="iAW-09-1oB"/>
+                            <constraint firstItem="EeM-Vu-Nfv" firstAttribute="trailing" secondItem="OHc-X5-eGI" secondAttribute="trailing" id="rJB-Qy-mEo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5ac-B3-7iQ"/>
+                    <connections>
+                        <outlet property="progressView" destination="OHc-X5-eGI" id="m2g-Tv-KD3"/>
+                        <outlet property="webView" destination="dvU-0K-W12" id="r7u-w6-wxv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oTS-xe-YvL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
