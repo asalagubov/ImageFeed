@@ -8,9 +8,15 @@
 import Foundation
 import UIKit
 
-final class AuthViewController: UIViewController {
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
 
+final class AuthViewController: UIViewController {
+  
   private let ShowWebViewSegueIdentifier = "ShowWebView"
+
+  weak var delegate: AuthViewControllerDelegate?
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == ShowWebViewSegueIdentifier {
@@ -26,9 +32,17 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
   func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-    //TODO: process code
+    vc.dismiss(animated: true)
+    OAuth2Service.shared.fetchOAuthToken(code: code) { result in
+      switch result {
+      case .success(let token):
+        print("Successfully fetched OAuth token:", token)
+      case .failure(let error):
+        print("Failed to fetch OAuth token:", error)
+      }
+    }
   }
-
+  
   func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
     dismiss(animated: true)
   }
