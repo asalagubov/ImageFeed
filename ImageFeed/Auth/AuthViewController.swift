@@ -37,6 +37,10 @@ extension AuthViewController: WebViewViewControllerDelegate {
       switch result {
       case .success(let token):
         print("Successfully fetched OAuth token:", token)
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "TabBarViewController")
+        window.rootViewController = tabBarController
       case .failure(let error):
         print("Failed to fetch OAuth token:", error)
       }
