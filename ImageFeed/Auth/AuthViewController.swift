@@ -14,15 +14,16 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
   
-  private let ShowWebViewSegueIdentifier = "ShowWebView"
-
   weak var delegate: AuthViewControllerDelegate?
 
+  private let showWebViewSegueIdentifier = "ShowWebView"
+
+
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == ShowWebViewSegueIdentifier {
+    if segue.identifier == showWebViewSegueIdentifier {
       guard
         let webViewViewController = segue.destination as? WebViewViewController
-      else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+      else { fatalError("Failed to prepare for \(showWebViewSegueIdentifier)") }
       webViewViewController.delegate = self
     } else {
       super.prepare(for: segue, sender: sender)
@@ -32,21 +33,19 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
   func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-    vc.dismiss(animated: true)
-    OAuth2Service.shared.fetchOAuthToken(code: code) { result in
-      switch result {
-      case .success(let token):
-        print("Successfully fetched OAuth token:", token)
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
-      case .failure(let error):
-        print("Failed to fetch OAuth token:", error)
-      }
-    }
-  }
-  
+     vc.dismiss(animated: true)
+     OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+       guard let self = self else { return }
+       switch result {
+       case .success(let token):
+         print("Successfully fetched OAuth token:", token)
+         self.delegate?.authViewController(self, didAuthenticateWithCode: token)
+       case .failure(let error):
+         print("Failed to fetch OAuth token:", error)
+       }
+     }
+   }
+
   func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
     dismiss(animated: true)
   }

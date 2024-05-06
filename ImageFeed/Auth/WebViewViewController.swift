@@ -9,9 +9,6 @@ import Foundation
 import UIKit
 import WebKit
 
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-}
 
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
@@ -30,6 +27,7 @@ final class WebViewViewController: UIViewController {
     super.viewDidLoad()
     webView.navigationDelegate = self
     loadAuthView()
+    updateProgress()
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -56,8 +54,8 @@ final class WebViewViewController: UIViewController {
   }
 
   private func updateProgress() {
-      progressView.progress = Float(webView.estimatedProgress)
       progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+      progressView.setProgress(Float(webView.estimatedProgress), animated: true)
   }
 
   @IBAction func didTapBackButton(_ sender: Any) {

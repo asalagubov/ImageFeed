@@ -10,16 +10,18 @@ import Foundation
 
 final class OAuth2Service {
   static let shared = OAuth2Service()
+
   private var lastRequestCode: String?
   private var task: URLSessionTask?
-  init() {}
-
-
+  private let decoder: JSONDecoder = {
+    let result = JSONDecoder()
+    result.keyDecodingStrategy = .convertFromSnakeCase
+    return result
+  }()
+  private init() {}
 
   func makeOAuthTokenRequest(code: String) -> URLRequest? {
-    guard let baseURL = URL(string: "https://unsplash.com") else {
-      return nil
-    }
+    let baseURL = Constants.baseURL
 
     var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
     components?.path = "/oauth/token"
@@ -47,11 +49,12 @@ final class OAuth2Service {
       return
     }
 
-    task = URLSession.shared.data(for: request) { result in
+    task = URLSession.shared.data(for: request) { [weak self] result in
+      guard let self else { return }
       switch result {
       case .success(let data):
         do {
-          let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+          let tokenResponse = try decoder.decode(OAuthTokenResponseBody.self, from: data)
           let tokenStorage = OAuth2TokenStorage()
           tokenStorage.token = tokenResponse.accessToken // Save token to UserDefaults
           completion(.success(tokenResponse.accessToken))
