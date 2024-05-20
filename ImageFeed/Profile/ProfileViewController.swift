@@ -8,7 +8,8 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-  
+
+  private let profileService = ProfileService.shared
   private let avatarImageView = UIImageView(image: .avatar)
   private let service = ProfileService()
 
@@ -42,7 +43,7 @@ final class ProfileViewController: UIViewController {
     button.tintColor = .ypRed
     return button
   }()
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     [avatarImageView,
@@ -58,48 +59,46 @@ final class ProfileViewController: UIViewController {
     userNameLabelSet()
     descriptionLabelSet()
     logoutButtonSet()
-    loadData()
+    if let profile = profileService.profile {
+      updateProfileDetails(profile: profile)
+    }
   }
-  
+
   private func avatarSet() {
     avatarImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
     avatarImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
     avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
     avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
   }
-  
+
   private func nameLabelSet() {
     nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
     nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
   }
-  
+
   private func userNameLabelSet() {
     userNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
     userNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
   }
-  
+
   private func descriptionLabelSet() {
     descriptionLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
     descriptionLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8).isActive = true
   }
-  
+
   private func logoutButtonSet() {
     logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
     logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor).isActive = true
   }
 
-  private func loadData() {
-    service.fetchProfile(OAuth2TokenStorage().token!) { result in
-      guard case let .success(profile) = result else { return /* error */ }
-      DispatchQueue.main.async {
-        self.nameLabel.text = profile.name
-        self.userNameLabel.text = profile.loginName
-        self.descriptionLabel.text = profile.bio
-      }
-    }
+  private func updateProfileDetails(profile: Profile) {
+    self.nameLabel.text = profile.name
+    self.userNameLabel.text = profile.loginName
+    self.descriptionLabel.text = profile.bio
   }
 
-  
+
+
   @objc
   private func didTapLogoutButton(_ sender: Any) {
   }

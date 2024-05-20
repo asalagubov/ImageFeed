@@ -11,6 +11,10 @@ final class ProfileService {
   private let urlSession = URLSession.shared
   private var task: URLSessionTask?
   private let decoder: JSONDecoder = JSONDecoder()
+  static let shared = ProfileService()
+  private(set) var profile: Profile?
+  private var lastToken: String?
+
   private func makeInfoRequest(token: String) -> URLRequest? {
     let baseURL = Constants.defaultBaseURL
 
@@ -29,6 +33,7 @@ final class ProfileService {
   func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
     assert(Thread.isMainThread)
     task?.cancel()
+    lastToken = token
 
     guard let request = makeInfoRequest(token: token) else {
       completion(.failure(AuthServiceError.invalidRequest))
@@ -41,6 +46,7 @@ final class ProfileService {
       case .success(let data):
         do {
           let profileResponse = try decoder.decode(ProfileResult.self, from: data)
+          self.profile = Profile.init(editorProfile: profileResponse)
           completion(.success(Profile(editorProfile: profileResponse)))
         } catch {
           print("Error decoding profile response:", error)
@@ -50,6 +56,7 @@ final class ProfileService {
         print("Network error:", error)
         completion(.failure(error))
       }
+      self.lastToken = nil
       self.task = nil
     }
     task.resume()
