@@ -21,6 +21,8 @@
 		0C61E2322BB5A31600B4F828 /* ImageFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C61E2312BB5A31600B4F828 /* ImageFeedUITests.swift */; };
 		0C61E2342BB5A31600B4F828 /* ImageFeedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C61E2332BB5A31600B4F828 /* ImageFeedUITestsLaunchTests.swift */; };
 		0C61E27D2BBC6BE400B4F828 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C61E27C2BBC6BE400B4F828 /* ImagesListCell.swift */; };
+		0CCE82882BFA70B80097BFC2 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 0CCE82872BFA70B80097BFC2 /* ProgressHUD */; };
+		0CCE82912BFA78770097BFC2 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCE82902BFA78770097BFC2 /* UIBlockingProgressHUD.swift */; };
 		0CD5DE932BE4FEFB00ACDC64 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD5DE922BE4FEFA00ACDC64 /* WebViewViewController.swift */; };
 		0CDCACE72BE66B110090DB37 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCACE62BE66B110090DB37 /* OAuth2Service.swift */; };
 		0CDCACE92BE6C0C70090DB37 /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCACE82BE6C0C70090DB37 /* URLSession+data.swift */; };
@@ -65,6 +67,7 @@
 		0C61E2312BB5A31600B4F828 /* ImageFeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeedUITests.swift; sourceTree = "<group>"; };
 		0C61E2332BB5A31600B4F828 /* ImageFeedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeedUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0C61E27C2BBC6BE400B4F828 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		0CCE82902BFA78770097BFC2 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		0CD5DE922BE4FEFA00ACDC64 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		0CDCACE62BE66B110090DB37 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		0CDCACE82BE6C0C70090DB37 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CCE82882BFA70B80097BFC2 /* ProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +154,7 @@
 				0C61E2192BB5A31600B4F828 /* Assets.xcassets */,
 				0C61E21B2BB5A31600B4F828 /* LaunchScreen.storyboard */,
 				0C61E21E2BB5A31600B4F828 /* Info.plist */,
+				0CCE82902BFA78770097BFC2 /* UIBlockingProgressHUD.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -224,6 +229,9 @@
 			dependencies = (
 			);
 			name = ImageFeed;
+			packageProductDependencies = (
+				0CCE82872BFA70B80097BFC2 /* ProgressHUD */,
+			);
 			productName = ImageFeed;
 			productReference = 0C61E20D2BB5A31200B4F828 /* ImageFeed.app */;
 			productType = "com.apple.product-type.application";
@@ -296,6 +304,9 @@
 				Base,
 			);
 			mainGroup = 0C61E2042BB5A31200B4F828;
+			packageReferences = (
+				0CCE82862BFA70B80097BFC2 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
+			);
 			productRefGroup = 0C61E20E2BB5A31200B4F828 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -347,6 +358,7 @@
 				0CDCACF02BE77BED0090DB37 /* SplashViewController.swift in Sources */,
 				0C3664022BE411F80049D8C3 /* AuthViewController.swift in Sources */,
 				0C3663FF2BDFAABF0049D8C3 /* Constants.swift in Sources */,
+				0CCE82912BFA78770097BFC2 /* UIBlockingProgressHUD.swift in Sources */,
 				0C3663FA2BD044B00049D8C3 /* SingleImageViewController.swift in Sources */,
 				0CDCACE92BE6C0C70090DB37 /* URLSession+data.swift in Sources */,
 				0CD5DE932BE4FEFB00ACDC64 /* WebViewViewController.swift in Sources */,
@@ -701,6 +713,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0CCE82862BFA70B80097BFC2 /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/relatedcode/ProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0CCE82872BFA70B80097BFC2 /* ProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0CCE82862BFA70B80097BFC2 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
+			productName = ProgressHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0C61E2052BB5A31200B4F828 /* Project object */;
 }

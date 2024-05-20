@@ -7,10 +7,14 @@
 
 import Foundation
 
+enum AuthServiceError: Error {
+  case invalidRequest
+}
 
 final class OAuth2Service {
   static let shared = OAuth2Service()
 
+  private let urlSession = URLSession.shared
   private var lastRequestCode: String?
   private var task: URLSessionTask?
   private let decoder: JSONDecoder = {
@@ -34,9 +38,9 @@ final class OAuth2Service {
     ]
 
     guard let url = components?.url else {
+      assertionFailure("Failed to create URL")
       return nil
     }
-
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     return request
@@ -44,12 +48,20 @@ final class OAuth2Service {
 
 
   func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-    guard let request = makeOAuthTokenRequest(code: code) else {
-      completion(.failure(NetworkError.urlSessionError))
+    assert(Thread.isMainThread)
+    guard lastRequestCode != code else {
+      completion(.failure(AuthServiceError.invalidRequest))
       return
     }
 
-    task = URLSession.shared.data(for: request) { [weak self] result in
+    task?.cancel()
+    lastRequestCode = code
+    guard let request = makeOAuthTokenRequest(code: code) else {
+      completion(.failure(AuthServiceError.invalidRequest))
+      return
+    }
+
+    let task = urlSession.data(for: request){ [weak self] result  in
       guard let self else { return }
       switch result {
       case .success(let data):
@@ -66,7 +78,9 @@ final class OAuth2Service {
         print("Network error:", error)
         completion(.failure(error))
       }
+      self.task = nil
+      self.lastRequestCode = nil
     }
-    task?.resume()
+    task.resume()
   }
 }
