@@ -10,7 +10,8 @@ import UIKit
 final class ProfileViewController: UIViewController {
   
   private let avatarImageView = UIImageView(image: .avatar)
-  
+  private let service = ProfileService()
+
   private let nameLabel: UILabel = {
     let label = UILabel()
     label.text = "Екатерина Новикова"
@@ -57,6 +58,7 @@ final class ProfileViewController: UIViewController {
     userNameLabelSet()
     descriptionLabelSet()
     logoutButtonSet()
+    loadData()
   }
   
   private func avatarSet() {
@@ -85,9 +87,22 @@ final class ProfileViewController: UIViewController {
     logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
     logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor).isActive = true
   }
-  
+
+  private func loadData() {
+    service.fetchProfile(OAuth2TokenStorage().token!) { result in
+      guard case let .success(profile) = result else { return /* error */ }
+      DispatchQueue.main.async {
+        self.nameLabel.text = profile.name
+        self.userNameLabel.text = profile.loginName
+        self.descriptionLabel.text = profile.bio
+      }
+    }
+  }
+
   
   @objc
   private func didTapLogoutButton(_ sender: Any) {
   }
+
+
 }
