@@ -10,6 +10,7 @@ import Foundation
 
 final class ProfileImageService {
   static let shared = ProfileImageService()
+  static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
   private (set) var avatarURL: String?
   private var task: URLSessionTask?
   private let urlSession = URLSession.shared
@@ -50,8 +51,14 @@ final class ProfileImageService {
           let profileResponse = try decoder.decode(ProfileResult.self, from: data)
           let avatarURL = profileResponse.profile_image.small
           completion(.success(avatarURL))
+          print("Image has been uploaded ")
+
+          NotificationCenter.default.post(
+                  name: ProfileImageService.didChangeNotification,
+                  object: self,
+                  userInfo: ["URL": avatarURL])
         } catch {
-          print("Error decoding profile response:", error)
+          print("Image has been error", error)
           completion(.failure(error))
         }
       case .failure(let error):
