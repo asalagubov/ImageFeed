@@ -36,29 +36,26 @@ final class ProfileService {
     lastToken = token
 
     guard let request = makeInfoRequest(token: token) else {
+      print("[ProfileService]: makeInfoRequest - \(AuthServiceError.invalidRequest)")
       completion(.failure(AuthServiceError.invalidRequest))
       return
     }
 
-    let task = urlSession.data(for: request){ [weak self] result  in
+    let task = urlSession.objectTask(for: request){ [weak self] (result: Result<ProfileResult, Error>)  in
       guard let self else { return }
       switch result {
-      case .success(let data):
-        do {
-          let profileResponse = try decoder.decode(ProfileResult.self, from: data)
-          self.profile = Profile.init(editorProfile: profileResponse)
-          completion(.success(Profile(editorProfile: profileResponse)))
-        } catch {
-          print("Error decoding profile response:", error)
-          completion(.failure(error))
-        }
+      case .success(let profileResponse):
+          let profile = Profile(editorProfile: profileResponse)
+          self.profile = profile
+          completion(.success(profile))
       case .failure(let error):
-        print("Network error:", error)
+        print("[ProfileService]: NetworkError - \(error)")
         completion(.failure(error))
       }
       self.lastToken = nil
       self.task = nil
     }
+    self.task = task
     task.resume()
   }
 }

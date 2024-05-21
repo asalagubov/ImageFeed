@@ -17,11 +17,7 @@ final class OAuth2Service {
   private let urlSession = URLSession.shared
   private var lastRequestCode: String?
   private var task: URLSessionTask?
-  private let decoder: JSONDecoder = {
-    let result = JSONDecoder()
-    result.keyDecodingStrategy = .convertFromSnakeCase
-    return result
-  }()
+  private let decoder = JSONDecoder()
   private init() {}
 
   func makeOAuthTokenRequest(code: String) -> URLRequest? {
@@ -50,6 +46,7 @@ final class OAuth2Service {
   func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
     assert(Thread.isMainThread)
     guard lastRequestCode != code else {
+      print("[fetchOAuthToken]: lastRequestCode - \(AuthServiceError.invalidRequest)")
       completion(.failure(AuthServiceError.invalidRequest))
       return
     }
@@ -57,30 +54,27 @@ final class OAuth2Service {
     task?.cancel()
     lastRequestCode = code
     guard let request = makeOAuthTokenRequest(code: code) else {
+      print("[fetchOAuthToken]: makeOAuthTokenRequest - \(AuthServiceError.invalidRequest)")
       completion(.failure(AuthServiceError.invalidRequest))
       return
     }
 
-    let task = urlSession.data(for: request){ [weak self] result  in
+    let task = urlSession.objectTask(for: request){ [weak self] (result: Result<OAuthTokenResponseBody, Error>)  in
       guard let self else { return }
       switch result {
-      case .success(let data):
-        do {
-          let tokenResponse = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+      case .success(let tokenResponse):
           let tokenStorage = OAuth2TokenStorage()
-          tokenStorage.token = tokenResponse.accessToken // Save token to UserDefaults
+          tokenStorage.token = tokenResponse.accessToken
           completion(.success(tokenResponse.accessToken))
-        } catch {
-          print("Error decoding token response:", error)
-          completion(.failure(error))
-        }
+
       case .failure(let error):
-        print("Network error:", error)
+        print("[OAuth2Service]: NetworkError - \(error)")
         completion(.failure(error))
       }
       self.task = nil
       self.lastRequestCode = nil
     }
+    self.task = task
     task.resume()
   }
 }

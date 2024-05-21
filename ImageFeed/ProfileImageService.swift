@@ -43,30 +43,26 @@ final class ProfileImageService {
       return
     }
 
-    let task = urlSession.data(for: request){ [weak self] result  in
+    let task = urlSession.objectTask(for: request){ [weak self] (result: Result<ProfileResult, Error>)  in
       guard let self else { return }
       switch result {
-      case .success(let data):
-        do {
-          let profileResponse = try decoder.decode(ProfileResult.self, from: data)
-          let avatarURL = profileResponse.profile_image.small
+      case .success(let profileResponseImage):
+          let avatarURL = profileResponseImage.profileImage.small
+          self.avatarURL = avatarURL
           completion(.success(avatarURL))
-          print("Image has been uploaded ")
 
           NotificationCenter.default.post(
                   name: ProfileImageService.didChangeNotification,
                   object: self,
                   userInfo: ["URL": avatarURL])
-        } catch {
-          print("Image has been error", error)
-          completion(.failure(error))
-        }
+
       case .failure(let error):
-        print("Network error:", error)
+        print("[ProfileImageService]: AuthServiceError - \(error)")
         completion(.failure(error))
       }
       self.task = nil
     }
+    self.task = task
     task.resume()
   }
 }

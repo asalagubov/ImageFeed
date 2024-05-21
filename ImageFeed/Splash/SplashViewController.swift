@@ -91,12 +91,13 @@ extension SplashViewController: AuthViewControllerDelegate {
 
       switch result {
       case .success(let profileResult):
-        let username = profileResult.userName
-        ProfileImageService.shared.fetchProfileImageURL(username: username) { _ in }
+        let username = profileResult.userName 
+        profileImageService.fetchProfileImageURL(username: username) { _ in }
+        print("Parsing completed")
         self.switchToTabBarController()
 
       case .failure:
-        
+
         // TODO [Sprint 11] Покажите ошибку получения профиля
         print("Parsing Data Error")
         break
