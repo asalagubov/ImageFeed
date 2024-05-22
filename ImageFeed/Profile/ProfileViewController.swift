@@ -75,6 +75,7 @@ final class ProfileViewController: UIViewController {
         self.updateAvatar()
       }
     updateAvatar()
+    view.backgroundColor = .ypBlack
 }
 
 private func avatarSet() {
