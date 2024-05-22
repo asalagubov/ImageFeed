@@ -8,5 +8,5 @@
 import Foundation
 
 struct UserResult: Codable {
-  let small: String
+  let large: String
 }
