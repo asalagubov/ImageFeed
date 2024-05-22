@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
   private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
@@ -16,15 +17,24 @@ final class SplashViewController: UIViewController {
   private let profileService = ProfileService.shared
   private let profileImageService = ProfileImageService.shared
 
+  private let splashImageView: UIImageView = {
+    let imageView = UIImageView(image: UIImage(named: "splash_screen_logo"))
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    return imageView
+  }()
+
+  override func viewDidLoad() {
+    setupSplashViewController()
+  }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
 
     if let token = oauth2TokenStorage.token {
- //     switchToTabBarController()
       fetchProfile(token)
     } else {
-      // Show Auth Screen
-      performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+      //performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+      switchToAuthViewController()
     }
 
   }
@@ -38,34 +48,53 @@ final class SplashViewController: UIViewController {
     .lightContent
   }
 
+  private func setupSplashViewController() {
+    view.backgroundColor = .ypBlack
+    view.addSubview(splashImageView)
+    NSLayoutConstraint.activate([
+      splashImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      splashImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+    ])
+  }
+
   private func switchToTabBarController() {
     guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
     let tabBarController = UIStoryboard(name: "Main", bundle: .main)
       .instantiateViewController(withIdentifier: "TabBarViewController")
     window.rootViewController = tabBarController
   }
-}
 
-extension SplashViewController {
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == showAuthenticationScreenSegueIdentifier {
-      guard
-        let navigationController = segue.destination as? UINavigationController,
-        let viewController = navigationController.viewControllers[0] as? AuthViewController
-      else {
-        assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
-        return
-      }
-      viewController.delegate = self
-    } else {
-      super.prepare(for: segue, sender: sender)
+
+  private func switchToAuthViewController() {
+    let storyboard = UIStoryboard(name: "Main", bundle: .main)
+    guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+      fatalError("AuthViewController not found in storyboard")
     }
+    authViewController.delegate = self
+    authViewController.modalPresentationStyle = .fullScreen
+    present(authViewController, animated: true, completion: nil)
   }
 }
+//extension SplashViewController {
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    if segue.identifier == showAuthenticationScreenSegueIdentifier {
+//      guard
+//        let navigationController = segue.destination as? UINavigationController,
+//        let viewController = navigationController.viewControllers[0] as? AuthViewController
+//      else {
+//        assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
+//        return
+//      }
+//      viewController.delegate = self
+//    } else {
+//      super.prepare(for: segue, sender: sender)
+//    }
+//  }
+//}
 
 extension SplashViewController: AuthViewControllerDelegate {
   func authViewController(_ vc: AuthViewController, didAuthenticateWithCode token: String) {
-    dismiss(animated: true) 
+    dismiss(animated: true)
   }
 
   func didAuthenticate(_ vc: AuthViewController) {
@@ -81,7 +110,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 
       switch result {
       case .success(let profileResult):
-        let username = profileResult.userName 
+        let username = profileResult.userName
         profileImageService.fetchProfileImageURL(username: username) { _ in }
         print("Parsing completed")
         self.switchToTabBarController()
