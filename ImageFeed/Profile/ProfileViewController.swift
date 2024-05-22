@@ -74,8 +74,6 @@ final class ProfileViewController: UIViewController {
         guard let self = self else { return }
         self.updateAvatar()
       }
-    avatarImageView.layer.cornerRadius = 35  
-    avatarImageView.clipsToBounds = true
     updateAvatar()
 }
 
@@ -118,6 +116,8 @@ private func updateAvatar() {
     let url = URL(string: profileImageURL)
   else { return }
   avatarImageView.kf.setImage(with: url)
+  avatarImageView.layer.cornerRadius = 35
+  avatarImageView.clipsToBounds = true
 }
 
 @objc
