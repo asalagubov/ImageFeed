@@ -15,11 +15,8 @@ struct Profile {
 
   init(editorProfile: ProfileResult) {
     self.userName = editorProfile.username
-    self.name = editorProfile.firstName + " " + editorProfile.lastName
+    self.name = editorProfile.firstName + " " + (editorProfile.lastName ?? "")
     self.loginName = "@" + editorProfile.username
     self.bio = editorProfile.bio ?? ""
   }
 }
-
-
-

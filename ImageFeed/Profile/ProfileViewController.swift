@@ -5,15 +5,15 @@
 //  Created by Alexander Salagubov on 12.04.2024.
 //
 
-import UIKit
 import Kingfisher
+import UIKit
 
 
 final class ProfileViewController: UIViewController {
 
   private let profileService = ProfileService.shared
   private let avatarImageView = UIImageView(image: .avatar)
-  private let service = ProfileService()
+  private let service = ProfileService.shared
   private var profileImageServiceObserver: NSObjectProtocol?
 
   private let nameLabel: UILabel = {

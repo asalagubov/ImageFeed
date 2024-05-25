@@ -14,6 +14,7 @@ final class ProfileService {
   static let shared = ProfileService()
   private(set) var profile: Profile?
   private var lastToken: String?
+  private init () {}
 
   private func makeInfoRequest(token: String) -> URLRequest? {
     let baseURL = Constants.defaultBaseURL
