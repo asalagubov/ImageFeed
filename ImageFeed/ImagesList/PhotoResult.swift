@@ -9,10 +9,10 @@ import Foundation
 
 struct PhotoResult: Codable {
   let id: String
-  let createdAt: Date
+  let createdAt: String?
   let width: Int
   let height: Int
-  let likedByUser: Bool
+  let likedByUser: Bool?
   let description: String?
   let urls: UrlsResult
   

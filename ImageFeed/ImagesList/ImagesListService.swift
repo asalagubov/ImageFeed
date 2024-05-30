@@ -14,13 +14,14 @@ final class ImagesListService {
   private var lastLoadedPage: Int?
   private var task: URLSessionTask?
   private let urlSession = URLSession.shared
+  private let token = OAuth2TokenStorage()
 
   static let shared = ImagesListService()
   static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-  private init() {}
+   init() {}
 
   func makePhotoRequest(page: Int, per_page: Int) -> URLRequest? {
-    let baseURL = Constants.baseURL
+    let baseURL = Constants.defaultBaseURL
 
     var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
     components?.path = "/photos"
@@ -35,17 +36,16 @@ final class ImagesListService {
       return nil
     }
     var request = URLRequest(url: url)
-    request.httpMethod = "GET"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     return request
   }
 
-  func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
+  func fetchPhotosNextPage() {
     assert(Thread.isMainThread)
     task?.cancel()
     let nextPage = (lastLoadedPage ?? 0) + 1
 
     guard let request = makePhotoRequest(page: nextPage, per_page: 10) else {
-      completion(.failure(AuthServiceError.invalidRequest))
       return
     }
 
@@ -58,11 +58,9 @@ final class ImagesListService {
           self.photos.append(contentsOf: newPhoto)
           self.lastLoadedPage = nextPage
           NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
-          completion(.success(self.photos))
         }
       case .failure(let error):
         print("[ImagesListService]: AuthServiceError - \(error)")
-        completion(.failure(error))
       }
       self.task = nil
     }
