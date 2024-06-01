@@ -64,13 +64,13 @@ extension ImagesListViewController {
     //    }
     //
     //    cell.cellImage.image = image
-    let photo = photo[indexPath.row]
-    cell.dateLabel.text = photo.createdAt ?? ""
+    let image = photo[indexPath.row]
+    cell.dateLabel.text = dateFormatter.string(from: image.createdAt ?? Date())
     let isLike = indexPath.row % 2 == 0
     let likeImage = UIImage(named: isLike ? "like_button_on" : "like_button_off")
     cell.likeButton.setImage(likeImage, for: .normal)
     cell.cellImage.kf.indicatorType = .activity
-    cell.cellImage.kf.setImage(with: URL(string: photo.largeImageURL), placeholder: UIImage(named: "Stub"))
+    cell.cellImage.kf.setImage(with: URL(string: image.largeImageURL), placeholder: UIImage(named: "Stub"))
   }
 }
 
