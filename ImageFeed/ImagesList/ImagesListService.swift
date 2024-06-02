@@ -18,7 +18,7 @@ final class ImagesListService {
 
   static let shared = ImagesListService()
   static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-   init() {}
+  init() {}
 
   func makePhotoRequest(page: Int, per_page: Int) -> URLRequest? {
     let baseURL = Constants.defaultBaseURL
@@ -39,6 +39,23 @@ final class ImagesListService {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     return request
   }
+
+  func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+    let baseURL = Constants.defaultBaseURL.appendingPathComponent("photos/\(photoId)/like")
+
+    var request = URLRequest(url: baseURL)
+    request.httpMethod = isLike ? "POST" : "DELETE"
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+      if let error = error {
+        completion(.failure(error))
+        return
+      }
+        completion(.success(()))
+      }
+      task.resume()
+    }
 
   func fetchPhotosNextPage() {
     assert(Thread.isMainThread)

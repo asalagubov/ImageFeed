@@ -12,7 +12,7 @@ struct PhotoResult: Codable {
   let createdAt: Date?
   let width: Int
   let height: Int
-  let likedByUser: Bool?
+  var likedByUser: Bool?
   let description: String?
   let urls: UrlsResult
   
