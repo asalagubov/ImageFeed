@@ -111,7 +111,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
     guard let indexPath = tableView.indexPath(for: cell) else { return }
     let photo = photos[indexPath.row]
     let isLike = !photo.isLiked
-
+    UIBlockingProgressHUD.show()
     ImagesListService.shared.changeLike(photoId: photo.id, isLike: isLike) { [weak self] result in
         switch result {
         case .success:
@@ -121,7 +121,9 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     self?.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             }
+        UIBlockingProgressHUD.dismiss()
         case .failure(let error):
+            UIBlockingProgressHUD.dismiss()
             print("Failed to change like status: \(error)")
         }
     }
