@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-  var image: UIImage? {
+  var imageURL: URL? {
     didSet{
       guard isViewLoaded else { return }
-      imageView.image = image
+      loadImage()
     }
   }
 
@@ -21,29 +21,62 @@ final class SingleImageViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard let image else { return }
-    imageView.image = image
-    imageView.frame.size = image.size
+//    guard let image else { return }
+//    imageView.image = image
+//    imageView.frame.size = image.size
+//    rescaleAndCenterImageInScrollView(image: image)
     scrollView.minimumZoomScale = 0.1
     scrollView.maximumZoomScale = 1.25
-    rescaleAndCenterImageInScrollView(image: image)
+    scrollView.delegate = self
+    if let imageURL = imageURL {
+      loadImage()
+    }
+  }
+
+  private func loadImage() {
+    guard let imageURL = imageURL else { return }
+    UIBlockingProgressHUD.show()
+    imageView.kf.setImage(with: imageURL) { [weak self] result in
+      UIBlockingProgressHUD.dismiss()
+      guard let self = self else { return }
+      switch result {
+      case .success(let imageResult):
+        self.imageView.image = imageResult.image
+        self.imageView.frame.size = imageResult.image.size
+        self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+      case .failure:
+        self.showError()
+      }
+    }
   }
   @IBAction private func didTapBackButton() {
     dismiss(animated: true, completion: nil)
   }
   @IBAction private func didTapShareButton() {
-    guard let image else { return }
+    guard let image = imageView.image else { return }
     let share = UIActivityViewController(
-        activityItems: [image],
-        applicationActivities: nil
+      activityItems: [image],
+      applicationActivities: nil
     )
     present(share, animated: true, completion: nil)
-}
-}
+  }
 
+  private func showError() {
+    let alert = UIAlertController(
+      title: "Ошибка",
+      message: "Что-то пошло не так. Попробовать ещё раз?",
+      preferredStyle: .alert
+    )
+    alert.addAction(UIAlertAction(title: "Не надо", style: .cancel, handler: nil))
+    alert.addAction(UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+      self?.loadImage()
+    })
+    present(alert, animated: true)
+  }
+}
 extension SingleImageViewController: UIScrollViewDelegate {
   func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-    imageView
+    return imageView
   }
 }
 
