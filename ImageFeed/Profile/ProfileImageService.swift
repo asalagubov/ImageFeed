@@ -46,14 +46,14 @@ final class ProfileImageService {
       guard let self else { return }
       switch result {
       case .success(let profileResponseImage):
-          let avatarURL = profileResponseImage.profileImage.large
-          self.avatarURL = avatarURL
-          completion(.success(avatarURL))
-          print("Successfully parsed: \(avatarURL)")
-          NotificationCenter.default.post(
-                  name: ProfileImageService.didChangeNotification,
-                  object: self,
-                  userInfo: ["URL": avatarURL])
+        let avatarURL = profileResponseImage.profileImage.large
+        self.avatarURL = avatarURL
+        completion(.success(avatarURL))
+        print("Successfully parsed: \(avatarURL)")
+        NotificationCenter.default.post(
+          name: ProfileImageService.didChangeNotification,
+          object: self,
+          userInfo: ["URL": avatarURL])
 
       case .failure(let error):
         print("[ProfileImageService]: AuthServiceError - \(error)")
@@ -63,5 +63,9 @@ final class ProfileImageService {
     }
     self.task = task
     task.resume()
+  }
+}
+extension ProfileImageService {
+  func clearProfileImage() {
   }
 }

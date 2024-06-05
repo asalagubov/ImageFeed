@@ -52,10 +52,10 @@ final class ImagesListService {
         completion(.failure(error))
         return
       }
-        completion(.success(()))
-      }
-      task.resume()
+      completion(.success(()))
     }
+    task.resume()
+  }
 
   func fetchPhotosNextPage() {
     assert(Thread.isMainThread)
@@ -83,5 +83,11 @@ final class ImagesListService {
     }
     self.task = task
     task.resume()
+  }
+}
+extension ImagesListService {
+  func clearImagesData() {
+    self.photos = []
+    self.lastLoadedPage = nil
   }
 }

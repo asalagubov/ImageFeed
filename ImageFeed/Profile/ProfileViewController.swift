@@ -123,6 +123,7 @@ private func updateAvatar() {
 
 @objc
 private func didTapLogoutButton(_ sender: Any) {
+  ProfileLogoutService.shared.logout()
 }
 
 
