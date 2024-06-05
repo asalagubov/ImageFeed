@@ -16,8 +16,10 @@ final class ImagesListViewController: UIViewController {
   var photos: [Photo] = []
   let imageListService = ImagesListService.shared
 
+
   private lazy var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
+    let dateFormatter = ISO8601DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd"
     formatter.dateStyle = .long
     formatter.timeStyle = .none
@@ -27,8 +29,23 @@ final class ImagesListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in self?.updatePhoto()}
+    NotificationCenter.default.addObserver(self, selector: #selector(updateTableViewAnimated), name: ImagesListService.didChangeNotification, object: nil)
     imageListService.fetchPhotosNextPage()
+  }
+  deinit {
+      NotificationCenter.default.removeObserver(self)
+  }
+
+  @objc private func updateTableViewAnimated() {
+    let oldCount = photos.count
+    let newCount = imageListService.photos.count
+    photos = imageListService.photos
+    if oldCount != newCount {
+      tableView.performBatchUpdates {
+        let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+        tableView.insertRows(at: indexPaths, with: .automatic)
+      }
+    }
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -42,8 +59,8 @@ final class ImagesListViewController: UIViewController {
       }
       let photo = photos[indexPatch.row]
       viewController.imageURL = URL(string: photo.fullImageURL)
-//      if let image = UIImage(named: photo.largeImageURL) {
-//        viewController.image = image }
+      //      if let image = UIImage(named: photo.largeImageURL) {
+      //        viewController.image = image }
     } else {
       super.prepare(for: segue, sender: sender)
     }
@@ -114,19 +131,19 @@ extension ImagesListViewController: ImagesListCellDelegate {
     let isLike = !photo.isLiked
     UIBlockingProgressHUD.show()
     ImagesListService.shared.changeLike(photoId: photo.id, isLike: isLike) { [weak self] result in
-        switch result {
-        case .success:
-            DispatchQueue.main.async {
-                if let index = self?.photos.firstIndex(where: { $0.id == photo.id }) {
-                    self?.photos[index].isLiked = isLike
-                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
-                }
-            }
-        UIBlockingProgressHUD.dismiss()
-        case .failure(let error):
-            UIBlockingProgressHUD.dismiss()
-            print("Failed to change like status: \(error)")
+      switch result {
+      case .success:
+        DispatchQueue.main.async {
+          if let index = self?.photos.firstIndex(where: { $0.id == photo.id }) {
+            self?.photos[index].isLiked = isLike
+            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+          }
         }
+        UIBlockingProgressHUD.dismiss()
+      case .failure(let error):
+        UIBlockingProgressHUD.dismiss()
+        print("Failed to change like status: \(error)")
+      }
     }
-}
+  }
 }

@@ -84,6 +84,7 @@ final class ImagesListService {
     self.task = task
     task.resume()
   }
+  
 }
 extension ImagesListService {
   func clearImagesData() {

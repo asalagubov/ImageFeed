@@ -35,12 +35,13 @@ final class ProfileLogoutService {
     ProfileService.shared.clearProfileData()
     ProfileImageService.shared.clearProfileImage()
     ImagesListService.shared.clearImagesData()
+    OAuth2TokenStorage().clearToken()
   }
   private func navigateToAuthScreen() {
     guard let window = UIApplication.shared.windows.first else { return }
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
-    window.rootViewController = authViewController
+ //  let storyboard = UIStoryboard(name: "Main", bundle: nil)
+ //   let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
+    window.rootViewController = SplashViewController()
     window.makeKeyAndVisible()
   }
 }
