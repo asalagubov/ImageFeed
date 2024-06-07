@@ -59,7 +59,7 @@ final class ImagesListService {
 
   func fetchPhotosNextPage() {
     assert(Thread.isMainThread)
-    task?.cancel()
+    guard task == nil else { return }
     let nextPage = (lastLoadedPage ?? 0) + 1
 
     guard let request = makePhotoRequest(page: nextPage, per_page: 10) else {

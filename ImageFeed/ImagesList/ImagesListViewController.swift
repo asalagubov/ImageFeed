@@ -16,13 +16,12 @@ final class ImagesListViewController: UIViewController {
   var photos: [Photo] = []
   let imageListService = ImagesListService.shared
 
+  let dateFormatter8601 = ISO8601DateFormatter()
 
   private lazy var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    let dateFormatter = ISO8601DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd"
-    formatter.dateStyle = .long
-    formatter.timeStyle = .none
+    formatter.dateFormat = "d MMMM yyyy"
+    formatter.locale = Locale(identifier: "ru_RU")
     return formatter
   }()
 
@@ -33,7 +32,7 @@ final class ImagesListViewController: UIViewController {
     imageListService.fetchPhotosNextPage()
   }
   deinit {
-      NotificationCenter.default.removeObserver(self)
+    NotificationCenter.default.removeObserver(self)
   }
 
   @objc private func updateTableViewAnimated() {
@@ -46,6 +45,10 @@ final class ImagesListViewController: UIViewController {
         tableView.insertRows(at: indexPaths, with: .automatic)
       }
     }
+  }
+  private func configDate(from date: String) -> String? {
+    guard let date = dateFormatter8601.date(from: date) else { return nil }
+    return dateFormatter.string(from: date)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -78,7 +81,7 @@ final class ImagesListViewController: UIViewController {
 extension ImagesListViewController {
   func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
     let image = photos[indexPath.row]
-    cell.dateLabel.text = dateFormatter.string(from: image.createdAt ?? Date())
+    cell.dateLabel.text = configDate(from: image.createdAt ?? "")
     let likeImage = image.isLiked ? "like_button_on" : "like_button_off"
     cell.likeButton.setImage(UIImage(named: likeImage), for: .normal)
     cell.cellImage.kf.indicatorType = .activity
@@ -134,12 +137,12 @@ extension ImagesListViewController: ImagesListCellDelegate {
       switch result {
       case .success:
         DispatchQueue.main.async {
+          UIBlockingProgressHUD.dismiss()
           if let index = self?.photos.firstIndex(where: { $0.id == photo.id }) {
             self?.photos[index].isLiked = isLike
             self?.tableView.reloadRows(at: [indexPath], with: .automatic)
           }
         }
-        UIBlockingProgressHUD.dismiss()
       case .failure(let error):
         UIBlockingProgressHUD.dismiss()
         print("Failed to change like status: \(error)")
