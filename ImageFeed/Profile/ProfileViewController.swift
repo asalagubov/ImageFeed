@@ -123,6 +123,16 @@ private func updateAvatar() {
 
 @objc
 private func didTapLogoutButton(_ sender: Any) {
+  let alert = UIAlertController(
+    title: "Пока, пока!",
+    message: "Уверены, что хотите выйти",
+    preferredStyle: .alert
+  )
+  alert.addAction(UIAlertAction(title: "Нет", style: .cancel, handler: nil))
+  alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+    ProfileLogoutService.shared.logout()
+  })
+  present(alert, animated: true)
 }
 
 
