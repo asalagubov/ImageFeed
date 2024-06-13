@@ -29,13 +29,15 @@
 		0C6B868F2C021CCF00CAF23C /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B868E2C021CCF00CAF23C /* PhotoResult.swift */; };
 		0C6B86912C021CF700CAF23C /* UrlsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86902C021CF700CAF23C /* UrlsResult.swift */; };
 		0C6B86932C0E4A0C00CAF23C /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86922C0E4A0B00CAF23C /* ProfileLogoutService.swift */; };
-		0C6B86952C19B2E900CAF23C /* WebViewViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86942C19B2E900CAF23C /* WebViewViewControllerProtocol.swift */; };
-		0C6B86972C19B2FB00CAF23C /* WebViewPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86962C19B2FB00CAF23C /* WebViewPresenterProtocol.swift */; };
 		0C6B86992C19B4FC00CAF23C /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86982C19B4FC00CAF23C /* WebViewPresenter.swift */; };
 		0C6B869B2C19E60200CAF23C /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B869A2C19E60200CAF23C /* AuthHelper.swift */; };
 		0C6B869D2C1ADEF300CAF23C /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B869C2C1ADEF300CAF23C /* WebViewTests.swift */; };
 		0C6B869F2C1ADF7E00CAF23C /* WebViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B869E2C1ADF7E00CAF23C /* WebViewPresenterSpy.swift */; };
 		0C6B86A12C1AE25E00CAF23C /* WebViewViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86A02C1AE25E00CAF23C /* WebViewViewControllerSpy.swift */; };
+		0C6B86A52C1AF36C00CAF23C /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86A42C1AF36C00CAF23C /* ProfileViewPresenter.swift */; };
+		0C6B86A92C1B33F700CAF23C /* ProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86A82C1B33F700CAF23C /* ProfileViewTests.swift */; };
+		0C6B86AD2C1B344000CAF23C /* ProfileViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86AC2C1B344000CAF23C /* ProfileViewPresenterSpy.swift */; };
+		0C6B86AF2C1B35D600CAF23C /* ProfileViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6B86AE2C1B35D600CAF23C /* ProfileViewControllerSpy.swift */; };
 		0CCE82882BFA70B80097BFC2 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 0CCE82872BFA70B80097BFC2 /* ProgressHUD */; };
 		0CCE82912BFA78770097BFC2 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCE82902BFA78770097BFC2 /* UIBlockingProgressHUD.swift */; };
 		0CCE82932BFB77BA0097BFC2 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCE82922BFB77BA0097BFC2 /* ProfileService.swift */; };
@@ -93,13 +95,15 @@
 		0C6B868E2C021CCF00CAF23C /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
 		0C6B86902C021CF700CAF23C /* UrlsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlsResult.swift; sourceTree = "<group>"; };
 		0C6B86922C0E4A0B00CAF23C /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
-		0C6B86942C19B2E900CAF23C /* WebViewViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerProtocol.swift; sourceTree = "<group>"; };
-		0C6B86962C19B2FB00CAF23C /* WebViewPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterProtocol.swift; sourceTree = "<group>"; };
 		0C6B86982C19B4FC00CAF23C /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		0C6B869A2C19E60200CAF23C /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		0C6B869C2C1ADEF300CAF23C /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
 		0C6B869E2C1ADF7E00CAF23C /* WebViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterSpy.swift; sourceTree = "<group>"; };
 		0C6B86A02C1AE25E00CAF23C /* WebViewViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerSpy.swift; sourceTree = "<group>"; };
+		0C6B86A42C1AF36C00CAF23C /* ProfileViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenter.swift; sourceTree = "<group>"; };
+		0C6B86A82C1B33F700CAF23C /* ProfileViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTests.swift; sourceTree = "<group>"; };
+		0C6B86AC2C1B344000CAF23C /* ProfileViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenterSpy.swift; sourceTree = "<group>"; };
+		0C6B86AE2C1B35D600CAF23C /* ProfileViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerSpy.swift; sourceTree = "<group>"; };
 		0CCE82902BFA78770097BFC2 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		0CCE82922BFB77BA0097BFC2 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		0CCE82942BFB77D20097BFC2 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				0C3663F62BC96CC60049D8C3 /* ProfileViewController.swift */,
+				0C6B86A42C1AF36C00CAF23C /* ProfileViewPresenter.swift */,
 				0CCE82922BFB77BA0097BFC2 /* ProfileService.swift */,
 				0CCE82962BFB77E20097BFC2 /* Profile.swift */,
 				0CCE82942BFB77D20097BFC2 /* ProfileResult.swift */,
@@ -202,8 +207,6 @@
 				0C61E21B2BB5A31600B4F828 /* LaunchScreen.storyboard */,
 				0C61E21E2BB5A31600B4F828 /* Info.plist */,
 				0CCE82902BFA78770097BFC2 /* UIBlockingProgressHUD.swift */,
-				0C6B86942C19B2E900CAF23C /* WebViewViewControllerProtocol.swift */,
-				0C6B86962C19B2FB00CAF23C /* WebViewPresenterProtocol.swift */,
 				0C6B869A2C19E60200CAF23C /* AuthHelper.swift */,
 			);
 			path = ImageFeed;
@@ -212,10 +215,9 @@
 		0C61E2262BB5A31600B4F828 /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				0C6B86A72C1B33C100CAF23C /* WebViewTest */,
+				0C6B86A62C1B33B100CAF23C /* ProfileViewTest */,
 				0C61E2272BB5A31600B4F828 /* ImagesListServiceTests.swift */,
-				0C6B869C2C1ADEF300CAF23C /* WebViewTests.swift */,
-				0C6B869E2C1ADF7E00CAF23C /* WebViewPresenterSpy.swift */,
-				0C6B86A02C1AE25E00CAF23C /* WebViewViewControllerSpy.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -248,6 +250,26 @@
 				0C6B86882BFE336000CAF23C /* TabBarController.swift */,
 			);
 			path = TabBarController;
+			sourceTree = "<group>";
+		};
+		0C6B86A62C1B33B100CAF23C /* ProfileViewTest */ = {
+			isa = PBXGroup;
+			children = (
+				0C6B86A82C1B33F700CAF23C /* ProfileViewTests.swift */,
+				0C6B86AC2C1B344000CAF23C /* ProfileViewPresenterSpy.swift */,
+				0C6B86AE2C1B35D600CAF23C /* ProfileViewControllerSpy.swift */,
+			);
+			path = ProfileViewTest;
+			sourceTree = "<group>";
+		};
+		0C6B86A72C1B33C100CAF23C /* WebViewTest */ = {
+			isa = PBXGroup;
+			children = (
+				0C6B869C2C1ADEF300CAF23C /* WebViewTests.swift */,
+				0C6B869E2C1ADF7E00CAF23C /* WebViewPresenterSpy.swift */,
+				0C6B86A02C1AE25E00CAF23C /* WebViewViewControllerSpy.swift */,
+			);
+			path = WebViewTest;
 			sourceTree = "<group>";
 		};
 		0CAF09D12BE793E900EB779E /* OAuth2 */ = {
@@ -423,6 +445,7 @@
 				0C61E2152BB5A31200B4F828 /* ImagesListViewController.swift in Sources */,
 				0CCE82932BFB77BA0097BFC2 /* ProfileService.swift in Sources */,
 				0C61E27D2BBC6BE400B4F828 /* ImagesListCell.swift in Sources */,
+				0C6B86A52C1AF36C00CAF23C /* ProfileViewPresenter.swift in Sources */,
 				0CDCACEB2BE6C17A0090DB37 /* OAuthTokenResponseBody.swift in Sources */,
 				0C3663F72BC96CC60049D8C3 /* ProfileViewController.swift in Sources */,
 				0C61E2112BB5A31200B4F828 /* AppDelegate.swift in Sources */,
@@ -431,7 +454,6 @@
 				0CCE82972BFB77E20097BFC2 /* Profile.swift in Sources */,
 				0C3664022BE411F80049D8C3 /* AuthViewController.swift in Sources */,
 				0CCE82952BFB77D20097BFC2 /* ProfileResult.swift in Sources */,
-				0C6B86952C19B2E900CAF23C /* WebViewViewControllerProtocol.swift in Sources */,
 				0C3663FF2BDFAABF0049D8C3 /* AuthConfiguration.swift in Sources */,
 				0CCE82992BFBD2880097BFC2 /* ProfileImageService.swift in Sources */,
 				0CCE82912BFA78770097BFC2 /* UIBlockingProgressHUD.swift in Sources */,
@@ -441,7 +463,6 @@
 				0C3663FA2BD044B00049D8C3 /* SingleImageViewController.swift in Sources */,
 				0C6B868D2C021BC500CAF23C /* Photo.swift in Sources */,
 				0CDCACE92BE6C0C70090DB37 /* URLSession+data.swift in Sources */,
-				0C6B86972C19B2FB00CAF23C /* WebViewPresenterProtocol.swift in Sources */,
 				0CD5DE932BE4FEFB00ACDC64 /* WebViewViewController.swift in Sources */,
 				0C6B86992C19B4FC00CAF23C /* WebViewPresenter.swift in Sources */,
 				0CDCACE72BE66B110090DB37 /* OAuth2Service.swift in Sources */,
@@ -460,6 +481,9 @@
 				0C61E2282BB5A31600B4F828 /* ImagesListServiceTests.swift in Sources */,
 				0C6B86A12C1AE25E00CAF23C /* WebViewViewControllerSpy.swift in Sources */,
 				0C6B869D2C1ADEF300CAF23C /* WebViewTests.swift in Sources */,
+				0C6B86A92C1B33F700CAF23C /* ProfileViewTests.swift in Sources */,
+				0C6B86AF2C1B35D600CAF23C /* ProfileViewControllerSpy.swift in Sources */,
+				0C6B86AD2C1B344000CAF23C /* ProfileViewPresenterSpy.swift in Sources */,
 				0C6B869F2C1ADF7E00CAF23C /* WebViewPresenterSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
