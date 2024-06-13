@@ -55,12 +55,12 @@ final class ImagesListViewController: UIViewController {
     if segue.identifier == showSingleImageSegueController {
       guard
         let viewController = segue.destination as? SingleImageViewController,
-        let indexPatch = sender as? IndexPath
+        let indexPath = sender as? IndexPath
       else {
         assertionFailure("Invalid segue destination")
         return
       }
-      let photo = photos[indexPatch.row]
+      let photo = photos[indexPath.row]
       viewController.imageURL = URL(string: photo.fullImageURL)
       //      if let image = UIImage(named: photo.largeImageURL) {
       //        viewController.image = image }
@@ -96,7 +96,7 @@ extension ImagesListViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reiseIdentifier, for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
 
     guard let imageListCell = cell as? ImagesListCell else {
       return UITableViewCell()
