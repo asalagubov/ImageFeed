@@ -14,6 +14,7 @@ public protocol ProfileViewPresenterProtocol {
   func viewDidLoad()
   func updateAvatar()
   func notificationObserver()
+  func didTapLogoutButton()
 }
 
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
@@ -21,11 +22,11 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
   weak var view: ProfileViewControllerProtocol?
   private var profileImageServiceObserver: NSObjectProtocol?
   private let avatarImageView = UIImageView(image: .avatar)
-  
+
   init(view: ProfileViewControllerProtocol?) {
-          self.view = view
-          notificationObserver()
-      }
+    self.view = view
+    notificationObserver()
+  }
 
   func viewDidLoad() {
     notificationObserver()
@@ -43,11 +44,11 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     avatarImageView.kf.setImage(with: url) { result in
       switch result {
       case .success(let value):
-          self.view?.displayAvatar(image: value.image)
+        self.view?.displayAvatar(image: value.image)
       case .failure(let error):
-          print(error)
+        print(error)
       }
-  }
+    }
   }
   func notificationObserver() {
     profileImageServiceObserver = NotificationCenter.default
@@ -60,5 +61,16 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         self.updateAvatar()
       }
   }
-
+  func didTapLogoutButton() {
+    let alert = UIAlertController(
+      title: "Пока, пока!",
+      message: "Уверены, что хотите выйти",
+      preferredStyle: .alert
+    )
+    alert.addAction(UIAlertAction(title: "Нет", style: .cancel, handler: nil))
+    alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+      ProfileLogoutService.shared.logout()
+    })
+    view?.present(alert, animated: true, completion: nil)
+  }
 }

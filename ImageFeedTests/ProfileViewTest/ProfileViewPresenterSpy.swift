@@ -13,15 +13,20 @@ final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
   var view: ProfileViewControllerProtocol?
   var viewDidLoadCalled: Bool = false
   var notificationObserverCalled: Bool = false
-  
+  var didTapLogoutButtonCalled = true
+
   func viewDidLoad() {
     viewDidLoadCalled = true
   }
-  
+
   func notificationObserver() {
     notificationObserverCalled = true
   }
-  
+
   func updateAvatar() {
+  }
+
+  func didTapLogoutButton() {
+    didTapLogoutButtonCalled = true
   }
 }

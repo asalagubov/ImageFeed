@@ -12,6 +12,7 @@ public protocol ProfileViewControllerProtocol: AnyObject {
   var presenter: ProfileViewPresenterProtocol? { get set }
   func displayAvatar(image: UIImage?)
   func displayProfileData(name: String?, loginName: String?, bio: String?)
+  func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
 }
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
@@ -23,8 +24,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     imageView.clipsToBounds = true
     return imageView
   }()
-//  private let service = ProfileService.shared
-//  private var profileImageServiceObserver: NSObjectProtocol?
+
   var presenter: ProfileViewPresenterProtocol?
 
   private let nameLabel: UILabel = {
@@ -48,7 +48,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     label.font = .systemFont(ofSize: 13, weight: .regular)
     return label
   }()
-  private let logoutButton: UIButton = {
+  let logoutButton: UIButton = {
     let button = UIButton.systemButton(
       with: UIImage(systemName: "ipad.and.arrow.forward")!,
       target: self,
@@ -73,10 +73,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     userNameLabelSet()
     descriptionLabelSet()
     logoutButtonSet()
-//    if let profile = profileService.profile {
-//      updateProfileDetails(profile: profile)
-//    }
-    //    updateAvatar()
     view.backgroundColor = .ypBlack
     presenter = ProfileViewPresenter(view: self)
     presenter?.viewDidLoad()
@@ -109,22 +105,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor).isActive = true
   }
 
-//  func updateProfileDetails(profile: Profile) {
-//    self.nameLabel.text = profile.name
-//    self.userNameLabel.text = profile.loginName
-//    self.descriptionLabel.text = profile.bio
-//  }
-
-  //  private func updateAvatar() {
-  //    guard
-  //      let profileImageURL = ProfileImageService.shared.avatarURL,
-  //      let url = URL(string: profileImageURL)
-  //    else { return }
-  //    avatarImageView.kf.setImage(with: url)
-  //    avatarImageView.layer.cornerRadius = 35
-  //    avatarImageView.clipsToBounds = true
-  //  }
-
   func displayAvatar(image: UIImage?) {
     avatarImageView.image = image
   }
@@ -136,18 +116,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
   }
 
   @objc
-  private func didTapLogoutButton(_ sender: Any) {
-    let alert = UIAlertController(
-      title: "Пока, пока!",
-      message: "Уверены, что хотите выйти",
-      preferredStyle: .alert
-    )
-    alert.addAction(UIAlertAction(title: "Нет", style: .cancel, handler: nil))
-    alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-      ProfileLogoutService.shared.logout()
-    })
-    present(alert, animated: true)
+  func didTapLogoutButton(_ sender: Any) {
+    presenter?.didTapLogoutButton()
   }
-
-
 }

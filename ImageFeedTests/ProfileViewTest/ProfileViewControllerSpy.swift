@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
-
   var presenter: ImageFeed.ProfileViewPresenterProtocol?
+  var presentCalled = false
 
   func updateAvatar() {
   }
@@ -21,5 +21,8 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
 
   func displayAvatar(image: UIImage?) {
 
+  }
+  func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+    
   }
 }
