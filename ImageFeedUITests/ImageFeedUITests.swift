@@ -29,14 +29,14 @@ final class ImageFeedUITests: XCTestCase {
     XCTAssertTrue(loginTextField.waitForExistence(timeout: 3))
 
     loginTextField.tap()
-    loginTextField.typeText("salagubov@icloud.com")
+    loginTextField.typeText("Ваш e-mail")
 
     let passwordTextField = webView.descendants(matching: .secureTextField).element
     XCTAssertTrue(passwordTextField.waitForExistence(timeout: 3))
     XCUIApplication().toolbars.buttons["Done"].tap()
 
     passwordTextField.tap()
-    passwordTextField.typeText("Salagubov")
+    passwordTextField.typeText("Ваш пароль")
     webView.tap()
     sleep(1)
 
@@ -53,30 +53,32 @@ final class ImageFeedUITests: XCTestCase {
     let tablesQuery = app.tables
 
     let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-    cell.swipeUp()
+    tablesQuery.element.swipeUp()
 
     sleep(2)
+    //    let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
 
-    let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+    //    cellToLike.buttons["like button off"].tap()
+    //    cellToLike.buttons["like button on"].tap()
+    //
+    //    sleep(2)
+    //
+    //    cellToLike.tap()
 
-    cellToLike.buttons["likeButton"].tap()
-    cellToLike.buttons["likeButton"].tap()
-
-    sleep(2)
-
-    cellToLike.tap()
+    tablesQuery.element.tap()
 
     sleep(2)
 
     let image = app.scrollViews.images.element(boundBy: 0)
     // Zoom in
-    image.pinch(withScale: 3, velocity: 1) // zoom in
+    image.pinch(withScale: 3, velocity: 1)
     // Zoom out
     image.pinch(withScale: 0.5, velocity: -1)
 
-    let navBackButtonWhiteButton = app.buttons["nav back button white"]
+    let navBackButtonWhiteButton = app.buttons["BackButton"]
     navBackButtonWhiteButton.tap()
   }
+
 
   func testProfile() throws {
     app.tabBars.buttons.element(boundBy: 1).tap()

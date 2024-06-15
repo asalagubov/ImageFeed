@@ -68,6 +68,7 @@ extension ImagesListViewController {
     let image = photos[indexPath.row]
     cell.dateLabel.text = presenter?.configDate(from: image.createdAt ?? "")
     let likeImage = image.isLiked ? "like_button_on" : "like_button_off"
+    cell.likeButton.accessibilityIdentifier = "LikeButton"
     cell.likeButton.setImage(UIImage(named: likeImage), for: .normal)
     cell.cellImage.kf.indicatorType = .activity
     cell.cellImage.kf.setImage(with: URL(string: image.largeImageURL), placeholder: UIImage(named: "Stub"))
