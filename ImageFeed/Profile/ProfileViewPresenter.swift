@@ -71,6 +71,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
       ProfileLogoutService.shared.logout()
     })
+    alert.view.accessibilityIdentifier = "logoutAlert"
     view?.present(alert, animated: true, completion: nil)
   }
 }

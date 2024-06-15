@@ -37,9 +37,8 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
   override func viewDidLoad() {
     super.viewDidLoad()
     webView.navigationDelegate = self
+    webView.accessibilityIdentifier = "UnsplashWebView"
     presenter?.viewDidLoad()
-    //    loadAuthView()
-    //    updateProgress()
     estimatedProgressObservation = webView.observe(
       \.estimatedProgress,
        options: [],
@@ -60,27 +59,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
   @IBAction func didTapBackButton(_ sender: Any) {
     delegate?.webViewViewControllerDidCancel(self)
   }
-  //  private func loadAuthView() {
-  //    guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-  //      return
-  //    }
-  //
-  //    urlComponents.queryItems = [
-  //      URLQueryItem(name: "client_id", value: Constants.accessKey),
-  //      URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-  //      URLQueryItem(name: "response_type", value: "code"),
-  //      URLQueryItem(name: "scope", value: Constants.accessScope)
-  //    ]
-  //
-  //    guard let url = urlComponents.url else {
-  //      return
-  //    }
-  //
-  //    let request = URLRequest(url: url)
-  //    webView.load(request)
-  //  }
-
-
 }
 
 extension WebViewViewController: WKNavigationDelegate {
