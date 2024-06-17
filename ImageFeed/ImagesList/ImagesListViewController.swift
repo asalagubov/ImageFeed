@@ -14,7 +14,7 @@ public protocol ImagesListViewControllerProtocol {
 
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
   var presenter: ImagesListViewPresenterProtocol?
-  
+
   private let showSingleImageSegueController = "ShowSingleImage"
 
   @IBOutlet private weak var tableView: UITableView!
@@ -92,7 +92,9 @@ extension ImagesListViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView,willDisplay cell: UITableViewCell,forRowAt indexPath: IndexPath) {
-    if indexPath.row == photos.count - 1 {
+    if indexPath.row == photos.count - 1,
+       !ProcessInfo.processInfo.arguments.contains("UITEST")
+    {
       presenter?.fetchPhotosNextPage()
     }
   }
