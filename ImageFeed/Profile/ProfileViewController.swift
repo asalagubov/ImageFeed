@@ -8,13 +8,24 @@
 import Kingfisher
 import UIKit
 
+public protocol ProfileViewControllerProtocol: AnyObject {
+  var presenter: ProfileViewPresenterProtocol? { get set }
+  func displayAvatar(image: UIImage?)
+  func displayProfileData(name: String?, loginName: String?, bio: String?)
+  func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
+}
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
 
   private let profileService = ProfileService.shared
-  private let avatarImageView = UIImageView(image: .avatar)
-  private let service = ProfileService.shared
-  private var profileImageServiceObserver: NSObjectProtocol?
+  private let avatarImageView: UIImageView = {
+    let imageView = UIImageView(image: .avatar)
+    imageView.layer.cornerRadius = 35
+    imageView.clipsToBounds = true
+    return imageView
+  }()
+
+  var presenter: ProfileViewPresenterProtocol?
 
   private let nameLabel: UILabel = {
     let label = UILabel()
@@ -37,13 +48,14 @@ final class ProfileViewController: UIViewController {
     label.font = .systemFont(ofSize: 13, weight: .regular)
     return label
   }()
-  private let logoutButton: UIButton = {
+  let logoutButton: UIButton = {
     let button = UIButton.systemButton(
       with: UIImage(systemName: "ipad.and.arrow.forward")!,
       target: self,
       action: #selector(Self.didTapLogoutButton)
     )
     button.tintColor = .ypRed
+    button.accessibilityIdentifier = "logoutButton"
     return button
   }()
 
@@ -62,78 +74,50 @@ final class ProfileViewController: UIViewController {
     userNameLabelSet()
     descriptionLabelSet()
     logoutButtonSet()
-    if let profile = profileService.profile {
-      updateProfileDetails(profile: profile)
-    }
-    profileImageServiceObserver = NotificationCenter.default
-      .addObserver(
-        forName: ProfileImageService.didChangeNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        guard let self = self else { return }
-        self.updateAvatar()
-      }
-    updateAvatar()
     view.backgroundColor = .ypBlack
-}
+    presenter = ProfileViewPresenter(view: self)
+    presenter?.viewDidLoad()
+  }
 
-private func avatarSet() {
-  avatarImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-  avatarImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-  avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
-  avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-}
+  private func avatarSet() {
+    avatarImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
+    avatarImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+    avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
+  }
 
-private func nameLabelSet() {
-  nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
-  nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
-}
+  private func nameLabelSet() {
+    nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor).isActive = true
+    nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8).isActive = true
+  }
 
-private func userNameLabelSet() {
-  userNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
-  userNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
-}
+  private func userNameLabelSet() {
+    userNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
+    userNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
+  }
 
-private func descriptionLabelSet() {
-  descriptionLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
-  descriptionLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8).isActive = true
-}
+  private func descriptionLabelSet() {
+    descriptionLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
+    descriptionLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8).isActive = true
+  }
 
-private func logoutButtonSet() {
-  logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
-  logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor).isActive = true
-}
+  private func logoutButtonSet() {
+    logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+    logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor).isActive = true
+  }
 
-private func updateProfileDetails(profile: Profile) {
-  self.nameLabel.text = profile.name
-  self.userNameLabel.text = profile.loginName
-  self.descriptionLabel.text = profile.bio
-}
+  func displayAvatar(image: UIImage?) {
+    avatarImageView.image = image
+  }
 
-private func updateAvatar() {
-  guard
-    let profileImageURL = ProfileImageService.shared.avatarURL,
-    let url = URL(string: profileImageURL)
-  else { return }
-  avatarImageView.kf.setImage(with: url)
-  avatarImageView.layer.cornerRadius = 35
-  avatarImageView.clipsToBounds = true
-}
+  func displayProfileData(name: String?, loginName: String?, bio: String?) {
+    nameLabel.text = name
+    userNameLabel.text = loginName
+    descriptionLabel.text = bio
+  }
 
-@objc
-private func didTapLogoutButton(_ sender: Any) {
-  let alert = UIAlertController(
-    title: "Пока, пока!",
-    message: "Уверены, что хотите выйти",
-    preferredStyle: .alert
-  )
-  alert.addAction(UIAlertAction(title: "Нет", style: .cancel, handler: nil))
-  alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-    ProfileLogoutService.shared.logout()
-  })
-  present(alert, animated: true)
-}
-
-
+  @objc
+  func didTapLogoutButton(_ sender: Any) {
+    presenter?.didTapLogoutButton()
+  }
 }

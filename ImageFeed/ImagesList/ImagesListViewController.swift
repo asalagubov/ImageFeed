@@ -7,27 +7,26 @@
 
 import UIKit
 
-final class ImagesListViewController: UIViewController {
+public protocol ImagesListViewControllerProtocol {
+  var presenter: ImagesListViewPresenterProtocol? { get set }
+  func updateTableViewAnimated()
+}
+
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
+  var presenter: ImagesListViewPresenterProtocol?
+
   private let showSingleImageSegueController = "ShowSingleImage"
 
   @IBOutlet private weak var tableView: UITableView!
 
-  //private let photosName: [String] = Array(0..<20).map{ "\($0)" }
   var photos: [Photo] = []
   let imageListService = ImagesListService.shared
-
-  let dateFormatter8601 = ISO8601DateFormatter()
-
-  private lazy var dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "d MMMM yyyy"
-    formatter.locale = Locale(identifier: "ru_RU")
-    return formatter
-  }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    presenter = ImagesListViewPresenter(view: self)
+    presenter?.viewDidLoad()
     NotificationCenter.default.addObserver(self, selector: #selector(updateTableViewAnimated), name: ImagesListService.didChangeNotification, object: nil)
     imageListService.fetchPhotosNextPage()
   }
@@ -35,7 +34,7 @@ final class ImagesListViewController: UIViewController {
     NotificationCenter.default.removeObserver(self)
   }
 
-  @objc private func updateTableViewAnimated() {
+  @objc internal func updateTableViewAnimated() {
     let oldCount = photos.count
     let newCount = imageListService.photos.count
     photos = imageListService.photos
@@ -46,33 +45,19 @@ final class ImagesListViewController: UIViewController {
       }
     }
   }
-  private func configDate(from date: String) -> String? {
-    guard let date = dateFormatter8601.date(from: date) else { return nil }
-    return dateFormatter.string(from: date)
-  }
-
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == showSingleImageSegueController {
       guard
         let viewController = segue.destination as? SingleImageViewController,
-        let indexPatch = sender as? IndexPath
+        let indexPath = sender as? IndexPath
       else {
         assertionFailure("Invalid segue destination")
         return
       }
-      let photo = photos[indexPatch.row]
+      let photo = photos[indexPath.row]
       viewController.imageURL = URL(string: photo.fullImageURL)
-      //      if let image = UIImage(named: photo.largeImageURL) {
-      //        viewController.image = image }
     } else {
       super.prepare(for: segue, sender: sender)
-    }
-  }
-
-  private func updatePhoto() {
-    self.photos = ImagesListService.shared.photos
-    self.tableView.performBatchUpdates {
-      self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
   }
 }
@@ -81,8 +66,9 @@ final class ImagesListViewController: UIViewController {
 extension ImagesListViewController {
   func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
     let image = photos[indexPath.row]
-    cell.dateLabel.text = configDate(from: image.createdAt ?? "")
+    cell.dateLabel.text = presenter?.configDate(from: image.createdAt ?? "")
     let likeImage = image.isLiked ? "like_button_on" : "like_button_off"
+    cell.likeButton.accessibilityIdentifier = "LikeButton"
     cell.likeButton.setImage(UIImage(named: likeImage), for: .normal)
     cell.cellImage.kf.indicatorType = .activity
     cell.cellImage.kf.setImage(with: URL(string: image.largeImageURL), placeholder: UIImage(named: "Stub"))
@@ -96,7 +82,7 @@ extension ImagesListViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reiseIdentifier, for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
 
     guard let imageListCell = cell as? ImagesListCell else {
       return UITableViewCell()
@@ -106,8 +92,10 @@ extension ImagesListViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView,willDisplay cell: UITableViewCell,forRowAt indexPath: IndexPath) {
-    if indexPath.row == photos.count - 1 {
-      imageListService.fetchPhotosNextPage()
+    if indexPath.row == photos.count - 1,
+       !ProcessInfo.processInfo.arguments.contains("UITEST")
+    {
+      presenter?.fetchPhotosNextPage()
     }
   }
 }
