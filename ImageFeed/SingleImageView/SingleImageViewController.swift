@@ -18,13 +18,10 @@ final class SingleImageViewController: UIViewController {
 
   @IBOutlet private var imageView: UIImageView!
   @IBOutlet weak var scrollView: UIScrollView!
+  @IBOutlet weak var backButton: UIButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-//    guard let image else { return }
-//    imageView.image = image
-//    imageView.frame.size = image.size
-//    rescaleAndCenterImageInScrollView(image: image)
     scrollView.minimumZoomScale = 0.1
     scrollView.maximumZoomScale = 1.25
     scrollView.delegate = self

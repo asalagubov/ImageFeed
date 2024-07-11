@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
-  static let reiseIdentifier = "ImagesListCell"
+  static let reuseIdentifier = "ImagesListCell"
   weak var delegate: ImagesListCellDelegate?
   
   @IBOutlet weak var cellImage: UIImageView!
@@ -20,6 +20,7 @@ final class ImagesListCell: UITableViewCell {
   @IBAction func likeButtonClicked(_ sender: UIButton) {
     delegate?.imageListCellDidTapLike(self)
   }
+  
   override func prepareForReuse() {
     super.prepareForReuse()
     cellImage.kf.cancelDownloadTask()
